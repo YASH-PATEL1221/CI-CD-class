@@ -1,20 +1,24 @@
 name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v3
       
       - name: AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          run: 
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       
-      - name: deploy to s3
-        run: aws s3 sync . arn:aws:s3:::cicd-bucket123
+      - name: Deploy to S3
+        run: |
+          aws s3 sync . s3://cicd-bucket123  # Replace '.' with the path you want to sync
